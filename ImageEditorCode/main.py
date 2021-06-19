@@ -1,4 +1,4 @@
-from tkinter import ttk,Tk,PhotoImage,Canvas, filedialog, colorchooser,RIDGE,GROOVE,ROUND,Scale,HORIZONTAL
+from tkinter import ttk, Tk, PhotoImage, Canvas, filedialog, colorchooser, RIDGE, GROOVE, ROUND, Scale, HORIZONTAL
 import cv2
 from PIL import ImageTk, Image
 import numpy as np
@@ -11,7 +11,7 @@ class FrontEnd:
         self.menu_initialisation() #call the menu_initialisation function
 
     def menu_initialisation(self):
-        self.master.geometry('750x630+250+10')  #size of the window
+        self.master.geometry('750x550+250+10')  #size of the window. WidthxHeight
         self.master.title('Image Editor App with Tkinter and OpenCV') #title of the window
 #"""**********************************Header********************************************"""
         self.frame_header = ttk.Frame(self.master)
@@ -187,7 +187,7 @@ class FrontEnd:
 #"""**********************************Filter Menu Options********************************************"""
     def refresh_side_frame(self):
         try:
-            self.side_frame.grid_forget()
+            self.side_frame.grid_forget() #This function will erase the existing content of the side_frame and create a new side_frame using the configurations used when the frame was created.
         except:
             pass
 
@@ -215,6 +215,8 @@ class FrontEnd:
     def blur_action(self):
         self.refresh_side_frame()
         ttk.Label(self.side_frame, text="Averaging Blur").grid(row=0, column=2, padx=5, sticky='sw')
+        #Scale is used to define the slider. ttk.Scale can also be used instead of Scale. It defines a different type of slider.
+        #Here the object self.average_slider is used to fetch the changed value after the callback function self.averaging_action is called.
         self.average_slider = Scale(self.side_frame, from_=0, to=256, orient=HORIZONTAL, command=self.averaging_action)
         self.average_slider.grid(row=1, column=2, padx=5,  sticky='sw')
         ttk.Label(self.side_frame, text="Gaussian Blur").grid(row=2, column=2, padx=5, sticky='sw')
@@ -239,9 +241,10 @@ class FrontEnd:
     def adjust_action(self):
         self.refresh_side_frame()
         ttk.Label(self.side_frame, text="Brightness").grid(row=0, column=2, padx=5, pady=5, sticky='sw')
+        # resolution defines the increment in which the scale should move. that as as it moves, 0.1 is increased. orient is the type of slider
         self.brightness_slider = Scale(self.side_frame, from_=0, to_=2,  resolution=0.1, orient=HORIZONTAL, command=self.brightness_action)
         self.brightness_slider.grid(row=1, column=2, padx=5,  sticky='sw')
-        self.brightness_slider.set(1)
+        self.brightness_slider.set(1) # By default brightness is 0. This sets the default value selected in the slider. Same for saturation
         ttk.Label(self.side_frame, text="Saturation").grid(row=2, column=2, padx=5, pady=5, sticky='sw')
         self.saturation_slider = Scale(self.side_frame, from_=-200, to=200, resolution=0.5, orient=HORIZONTAL, command=self.saturation_action)
         self.saturation_slider.grid(row=3, column=2, padx=5,  sticky='sw')
